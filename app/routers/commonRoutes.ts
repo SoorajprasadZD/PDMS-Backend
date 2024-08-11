@@ -9,7 +9,7 @@ const commonRouter: Router = express.Router();
 
 commonRouter.post(
   "/verify-link",
-  validateRequest(verifyLinkSchema),
+  // validateRequest(verifyLinkSchema),
   commonController.verifyLink
 );
 

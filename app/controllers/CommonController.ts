@@ -8,12 +8,15 @@ import { doctorService } from "app/services/DoctorService";
 import { patientService } from "app/services/PatientService";
 import { insuranceService } from "app/services/InsuranceService";
 import { StatusCodes } from "http-status-codes";
+import { should } from "vitest";
 
 class CommonController {
   public verifyLink: RequestHandler = async (req: Request, res: Response) => {
     try {
-      const { id, role } = req.body;
+      const { screenshot, descriptor } = req.body;
 
+      const id = '1f78346d-cffb-4b94-997f-071de55be57d';
+      const role: any = Role.DOCTOR;
       let user = null;
       let service: any = doctorService;
 
@@ -43,7 +46,7 @@ class CommonController {
         );
       }
 
-      if (user.verified) {
+      if (user.faceVerified) {
         return ResponseHelper.handleError(
           res,
           "Already verified",
@@ -51,9 +54,11 @@ class CommonController {
         );
       }
 
-      service.verify(id);
+      // TODO : ensure that mobile is verified before going to face registration
 
-      return ResponseHelper.handleSuccess(res, "Verified successfully");
+      service.verify(id, screenshot, descriptor);
+
+      return ResponseHelper.handleError(res, "Verified successfully");
     } catch (error) {
       return ResponseHelper.handleError(res, "Verification failed");
     }

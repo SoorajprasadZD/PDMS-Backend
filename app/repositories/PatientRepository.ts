@@ -48,7 +48,7 @@ export class PatientRepository {
         patientId,
       },
       {
-        verified: true,
+        faceVerified: true,
       }
     );
   }

@@ -31,6 +31,9 @@ const config = {
     rateLimitMaxRequests: parseInt(process.env.COMMON_RATE_LIMIT_MAX_REQUESTS || "20"),
     rateLimitWindowMs: parseInt(process.env.COMMON_RATE_LIMIT_WINDOW_MS || "1000"),
   },
+  face: {
+    privateKey: process.env.PRIVATE_KEY || ''
+  }
 };
 
 export default config;

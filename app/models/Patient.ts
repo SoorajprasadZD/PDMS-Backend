@@ -15,7 +15,8 @@ export interface IPatient extends Document {
   address: string;
   state: string;
   phone: string;
-  verified: boolean;
+  faceVerified: boolean;
+  phoneVerified: boolean;
   role: string;
 }
 
@@ -58,7 +59,11 @@ const patientSchema = new Schema<IPatient>(
       type: String,
       required: true,
     },
-    verified: {
+    faceVerified: {
+      type: Boolean,
+      default: false,
+    },
+    phoneVerified: {
       type: Boolean,
       default: false,
     },

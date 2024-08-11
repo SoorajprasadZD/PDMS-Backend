@@ -41,7 +41,7 @@ export class DoctorRepository {
         doctorId,
       },
       {
-        verified: true,
+        faceVerified: true,
       }
     );
   }

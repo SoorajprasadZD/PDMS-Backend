@@ -12,7 +12,8 @@ export interface IDoctor extends Document {
   address: string;
   state: string;
   phone: string;
-  verified: boolean;
+  faceVerified: boolean;
+  phoneVerified: boolean;
   role: string;
 }
 
@@ -48,7 +49,11 @@ const DoctorSchema = new Schema<IDoctor>(
       type: String,
       required: true,
     },
-    verified: {
+    faceVerified: {
+      type: Boolean,
+      default: false,
+    },
+    phoneVerified: {
       type: Boolean,
       default: false,
     },

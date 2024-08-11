@@ -1,11 +1,19 @@
 import { IDoctor } from "app/models/Doctor";
 import { DoctorRepository } from "app/repositories/DoctorRepository";
+import { commonService } from "./CommonService";
+import { FaceDataRepository } from "app/repositories/FaceDataRepository";
+import { IFaceData } from "app/models/FaceData";
 
 export class DoctorService {
   private doctorRepository: DoctorRepository;
+  private faceDataRepository: FaceDataRepository;
 
-  constructor(repository: DoctorRepository = new DoctorRepository()) {
-    this.doctorRepository = repository;
+  constructor(
+    doctorRepository: DoctorRepository = new DoctorRepository(),
+    faceDataRepository: FaceDataRepository = new FaceDataRepository()
+  ) {
+    this.doctorRepository = doctorRepository;
+    this.faceDataRepository = faceDataRepository;
   }
 
   async getAllDoctors(): Promise<IDoctor[]> {
@@ -30,8 +38,18 @@ export class DoctorService {
     return this.doctorRepository.create(payload);
   }
 
-  async verify(doctorId: string) {
-    return this.doctorRepository.verify(doctorId);
+  async verify(id: string, face: string, descriptor: any) {
+    const { path, initVector, faceDescriptor } =
+      await commonService.registerFace(face, descriptor);
+
+    await this.faceDataRepository.create({
+      id,
+      path,
+      initVector,
+      faceDescriptor,
+    } as IFaceData);
+
+    return this.doctorRepository.verify(id);
   }
 }
 

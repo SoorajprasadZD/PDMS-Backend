@@ -41,7 +41,7 @@ export class InsuranceRepository {
         insuranceCompanyId,
       },
       {
-        verified: true,
+        faceVerified: true,
       }
     );
   }

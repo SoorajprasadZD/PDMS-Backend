@@ -12,7 +12,8 @@ export interface IInsurance extends Document {
   address: string;
   state: string;
   phone: string;
-  verified: boolean;
+  faceVerified: boolean;
+  phoneVerified: boolean;
   role: string;
 }
 
@@ -47,7 +48,11 @@ const InsuranceSchema = new Schema<IInsurance>(
       type: String,
       required: true,
     },
-    verified: {
+    faceVerified: {
+      type: Boolean,
+      default: false,
+    },
+    phoneVerified: {
       type: Boolean,
       default: false,
     },
