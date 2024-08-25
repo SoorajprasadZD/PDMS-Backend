@@ -6,6 +6,6 @@ import express, { type Router } from "express";
 const adminRouter: Router = express.Router();
 
 adminRouter.post("/", adminController.createAdmin);
-adminRouter.post("/login", validateRequest(adminLoginSchema), adminController.login)
+adminRouter.post("/sign-in", validateRequest(adminLoginSchema), adminController.login)
 
 export default adminRouter;
