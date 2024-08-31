@@ -13,16 +13,13 @@ import { should } from "vitest";
 class CommonController {
   public verifyLink: RequestHandler = async (req: Request, res: Response) => {
     try {
-      const { screenshot, descriptor } = req.body;
-
-      const id = '1f78346d-cffb-4b94-997f-071de55be57d';
-      const role: any = Role.DOCTOR;
+      const {id, role, screenshot, descriptor } = req.body;
       let user = null;
       let service: any = doctorService;
 
       switch (role) {
         case Role.DOCTOR:
-          user = await doctorService.findById(id);
+          user = await doctorService.findById(id)
           service = doctorService;
           break;
         case Role.PATIENT:
@@ -58,7 +55,7 @@ class CommonController {
 
       service.verify(id, screenshot, descriptor);
 
-      return ResponseHelper.handleError(res, "Verified successfully");
+      return ResponseHelper.handleSuccess(res, "Verified successfully");
     } catch (error) {
       return ResponseHelper.handleError(res, "Verification failed");
     }
