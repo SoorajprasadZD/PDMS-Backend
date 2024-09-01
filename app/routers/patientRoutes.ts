@@ -64,5 +64,9 @@ patientRouter.post(
   patientController.createMedicalReport
 );
 patientRouter.get("/:patientId/report", patientController.fetchMedicalReports);
+patientRouter.post(
+  "/generate-report-pdf",
+  patientController.generateMedicalReportPdf
+);
 
 export default patientRouter;
