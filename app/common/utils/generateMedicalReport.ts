@@ -1,6 +1,6 @@
-const dayjs = require("dayjs");
+import dayjs from "dayjs";
 
-const generateMedicalReport = (data: any, doc: any) => {
+export const generateMedicalReport = (data: any, doc: any) => {
   const offsetForRectangleOutline = 30;
   const headingOffsetFromTop = 50;
   const headingOffsetFromLeft = 20;
@@ -212,8 +212,4 @@ const generateMedicalReport = (data: any, doc: any) => {
     x: 430,
     y: doc.page.height - 160 + 10,
   });
-};
-
-module.exports = {
-  generateMedicalReport,
 };

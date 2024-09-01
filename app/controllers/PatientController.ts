@@ -10,6 +10,7 @@ import { doctorService } from "app/services/DoctorService";
 import { insuranceService } from "app/services/InsuranceService";
 import { StatusCodes } from "http-status-codes";
 import { IMedicalReport } from "app/models/MedicalReport";
+import { generateMedicalReport } from "app/common/utils/generateMedicalReport";
 
 class PatientController {
   public login: RequestHandler = async (req: Request, res: Response) => {
