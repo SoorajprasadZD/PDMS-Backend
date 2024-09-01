@@ -28,7 +28,7 @@ export const generateMedicalReport = (data: any, doc: any) => {
   doc
     .fontSize(10)
     .text(
-      "Information Tecnology Department, 8th semester, UCEK",
+      "PDMS Hospital, Sydney",
       150 + headingOffsetFromLeft,
       40 + headingOffsetFromTop
     );
