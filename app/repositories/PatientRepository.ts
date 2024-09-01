@@ -16,6 +16,22 @@ export class PatientRepository {
 
     return patients;
   }
+  async findByIDs(patientIds: string[]): Promise<IPatient[]> {
+    const patients = await Patient.find(
+      {
+        patientId: { $in: patientIds },
+      },
+      {
+        password: false,
+        createdAt: false,
+        updatedAt: false,
+        __v: false,
+        _id: false,
+      }
+    ).lean();
+
+    return patients;
+  }
 
   async findById(patientId: string): Promise<IPatient | null> {
     const patient = await Patient.findOne({ patientId });

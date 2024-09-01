@@ -1,4 +1,4 @@
-import { Authorizations } from "app/models/Authorizations";
+import { Authorizations, IAuthorizations } from "app/models/Authorizations";
 
 export class AuthorizationRepository {
   //   async findAll(): Promise<IPatient[]> {
@@ -27,6 +27,14 @@ export class AuthorizationRepository {
 
   //     return patient;
   //   }
+  async getPatientIdsByDoctorId(doctorId: string): Promise<IAuthorizations[]> {
+    const insurances = await Authorizations.find(
+      { authorizedDoctors: doctorId },
+      'patientId'
+    )
+
+    return insurances;
+  }
 
   async authorizeDoctor(patientId: string, doctorId: string) {
     await Authorizations.updateOne(

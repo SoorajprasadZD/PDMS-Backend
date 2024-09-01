@@ -16,6 +16,7 @@ doctorRouter.post(
   doctorController.login
 );
 doctorRouter.get("/", doctorController.getDoctors);
+doctorRouter.get("/authorized-patients", roleValidator(Role.DOCTOR), doctorController.getDoctorAuthorizedPatients);
 doctorRouter.post(
   "/",
   roleValidator(Role.ADMIN),

@@ -51,6 +51,21 @@ class DoctorController {
       return ResponseHelper.handleError(res, "Failed to fetch");
     }
   };
+  public getDoctorAuthorizedPatients: RequestHandler = async (req: Request, res: Response) => {
+    try {
+      const doctorId = res.locals.id;
+      const patients = await doctorService.getAuthorizedPatients(doctorId);
+
+
+      return ResponseHelper.handleSuccess(
+        res,
+        "Doctors Authorized Patients fetched successfully",
+        patients
+      );
+    } catch (error) {
+      return ResponseHelper.handleError(res, "Failed to fetch");
+    }
+  };
 
   public createDoctor: RequestHandler = async (req: Request, res: Response) => {
     try {
