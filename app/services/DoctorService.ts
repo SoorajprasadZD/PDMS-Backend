@@ -38,7 +38,7 @@ export class DoctorService {
     return this.doctorRepository.create(payload);
   }
 
-  async verify(id: string, face: string, descriptor: any) {
+  async registerFace(id: string, face: string, descriptor: any) {
     const { path, initVector, faceDescriptor } =
       await commonService.registerFace(face, descriptor);
 
@@ -49,7 +49,7 @@ export class DoctorService {
       faceDescriptor,
     } as IFaceData);
 
-    return this.doctorRepository.verify(id);
+    return this.doctorRepository.setFaceRegisteredTrue(id);
   }
 }
 
