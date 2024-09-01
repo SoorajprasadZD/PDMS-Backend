@@ -1,6 +1,6 @@
 import type { Request, RequestHandler, Response } from "express";
 import { ResponseHelper } from "app/common/utils/ResponseHelper";
-
+import PDFDocument from "pdfkit";
 import { patientService } from "app/services/PatientService";
 import { IPatient } from "app/models/Patient";
 import { PasswordUtil } from "app/common/utils/PasswordUtil";
@@ -8,6 +8,7 @@ import { Role } from "app/common/enums";
 import { AuthorizeDoctorPayload, AuthorizeInsurancePayload } from "app/types";
 import { doctorService } from "app/services/DoctorService";
 import { insuranceService } from "app/services/InsuranceService";
+import { StatusCodes } from "http-status-codes";
 
 class PatientController {
   public login: RequestHandler = async (req: Request, res: Response) => {
@@ -182,6 +183,44 @@ class PatientController {
       );
     } catch (error) {
       return ResponseHelper.handleError(res, "Failed to authorize insurance");
+    }
+  };
+
+  public generateMedicalReport = async (req: Request, res: Response) => {
+    const doc = new PDFDocument();
+    generateMedicalReport(req.body, doc);
+    res.setHeader("Content-Type", "application/pdf");
+    // res.setHeader("Content-Disposition", "attachment; filename=medical-report.pdf");
+
+    // Pipe the PDF document to the response
+    doc.pipe(res);
+
+    // Finalize the PDF document
+    doc.end();
+  };
+
+  public fetchProfile: RequestHandler = async (req: Request, res: Response) => {
+    try {
+      const { patientId } = req.params;
+      const existingPatient = await patientService.findById(patientId);
+
+      if (!existingPatient) {
+        return ResponseHelper.handleError(
+          res,
+          "Invalid request. Patient does not exist",
+          StatusCodes.BAD_REQUEST
+        );
+      }
+
+      const { password, ...dataWithoutPassword } = existingPatient;
+
+      return ResponseHelper.handleSuccess(
+        res,
+        "Insurance authorized successfully",
+        dataWithoutPassword
+      );
+    } catch (error) {
+      return ResponseHelper.handleError(res, "Failed to fetch patient profile");
     }
   };
 }
