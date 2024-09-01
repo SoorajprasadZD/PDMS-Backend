@@ -5,6 +5,9 @@ import { patientService } from "app/services/PatientService";
 import { IPatient } from "app/models/Patient";
 import { PasswordUtil } from "app/common/utils/PasswordUtil";
 import { Role } from "app/common/enums";
+import { AuthorizeDoctorPayload, AuthorizeInsurancePayload } from "app/types";
+import { doctorService } from "app/services/DoctorService";
+import { insuranceService } from "app/services/InsuranceService";
 
 class PatientController {
   public login: RequestHandler = async (req: Request, res: Response) => {
@@ -79,6 +82,74 @@ class PatientController {
       );
     } catch (error) {
       return ResponseHelper.handleError(res, "Failed to create patient");
+    }
+  };
+
+  public authorizeDoctor: RequestHandler = async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const payload: AuthorizeDoctorPayload = req.body;
+      const { id: doctorId } = res.locals;
+      const existingPatient = await patientService.findById(payload.patientId);
+      const existingDoctor = await doctorService.findById(doctorId);
+      const doctorToBeAuthorized = await doctorService.findById(
+        payload.doctorIdToBeAuthorized
+      );
+
+      // TODO: check if doctor has permission
+
+      if (!existingPatient || !existingDoctor || !doctorToBeAuthorized) {
+        return ResponseHelper.handleError(
+          res,
+          "Invalid request. Doctor or patient does not exist"
+        );
+      }
+
+      const result = await patientService.authorizeDoctor(payload);
+
+      return ResponseHelper.handleSuccess(
+        res,
+        "Doctor authorized successfully",
+        result
+      );
+    } catch (error) {
+      return ResponseHelper.handleError(res, "Failed to authorize doctor");
+    }
+  };
+
+  public authorizeInsurance: RequestHandler = async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const payload: AuthorizeInsurancePayload = req.body;
+      const { id: doctorId } = res.locals;
+      const existingPatient = await patientService.findById(payload.patientId);
+      const existingDoctor = await doctorService.findById(doctorId);
+      const insuranceToBeAuthorized = await insuranceService.findById(
+        payload.insuranceCompanyIdToBeAuthorized
+      );
+
+      // TODO: check if doctor has permission
+
+      if (!existingPatient || !existingDoctor || !insuranceToBeAuthorized) {
+        return ResponseHelper.handleError(
+          res,
+          "Invalid request. Insurance or patient does not exist"
+        );
+      }
+
+      const result = await patientService.authorizeInsurance(payload);
+
+      return ResponseHelper.handleSuccess(
+        res,
+        "Insurance authorized successfully",
+        result
+      );
+    } catch (error) {
+      return ResponseHelper.handleError(res, "Failed to authorize insurance");
     }
   };
 }

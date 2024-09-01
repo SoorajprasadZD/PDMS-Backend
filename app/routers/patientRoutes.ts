@@ -2,6 +2,8 @@ import express, { type Router } from "express";
 import { patientController } from "app/controllers/PatientController";
 import { validateRequest } from "app/common/middleware/validator";
 import {
+  authorizeDoctorSchema,
+  authorizeInsuranceSchema,
   createPatientSchema,
   patientLoginSchema,
 } from "app/schemas/patientSchema";
@@ -21,6 +23,18 @@ patientRouter.post(
   roleValidator(Role.DOCTOR),
   validateRequest(createPatientSchema),
   patientController.createPatient
+);
+patientRouter.post(
+  "/authorize-doctor",
+  roleValidator(Role.DOCTOR),
+  validateRequest(authorizeDoctorSchema),
+  patientController.authorizeDoctor
+);
+patientRouter.post(
+  "/authorize-insurance",
+  roleValidator(Role.DOCTOR),
+  validateRequest(authorizeInsuranceSchema),
+  patientController.authorizeInsurance
 );
 
 export default patientRouter;

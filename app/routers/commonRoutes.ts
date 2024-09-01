@@ -8,7 +8,7 @@ import { verifyLinkSchema } from "app/schemas/commonSchema";
 const commonRouter: Router = express.Router();
 
 commonRouter.post(
-  "/verify-link",
+  "/register-face",
   // validateRequest(verifyLinkSchema),
   commonController.verifyLink
 );
