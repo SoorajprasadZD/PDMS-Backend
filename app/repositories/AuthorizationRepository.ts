@@ -34,12 +34,20 @@ export class AuthorizationRepository {
   }
 
   async getPatientIdsByDoctorId(doctorId: string): Promise<IAuthorizations[]> {
-    const insurances = await Authorizations.find(
+    const authorizations = await Authorizations.find(
       { authorizedDoctors: doctorId },
       'patientId'
     )
 
-    return insurances;
+    return authorizations;
+  }
+  async getPatientIdsByInsuranceCompanyId(insuranceCompanyId: string): Promise<IAuthorizations[]> {
+    const authorizations = await Authorizations.find(
+      { authorizedInsurances: insuranceCompanyId },
+      'patientId'
+    )
+
+    return authorizations;
   }
 
   async authorizeDoctor(patientId: string, doctorIdToBeAuthorized: string) {

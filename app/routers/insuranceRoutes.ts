@@ -16,6 +16,7 @@ insuranceRouter.post(
   insuranceController.login
 );
 insuranceRouter.get("/", insuranceController.getInsurances);
+insuranceRouter.get("/authorized-patients", roleValidator(Role.INSURANCE), insuranceController.getInsuranceAuthorizedPatients);
 insuranceRouter.post(
   "/",
   roleValidator(Role.ADMIN),

@@ -85,6 +85,22 @@ class InsuranceController {
       return ResponseHelper.handleError(res, "Failed to create insurance");
     }
   };
+
+  public getInsuranceAuthorizedPatients: RequestHandler = async (req: Request, res: Response) => {
+    try {
+      const insuranceCompanyId = res.locals.id;
+      const patients = await insuranceService.getAuthorizedPatients(insuranceCompanyId);
+
+
+      return ResponseHelper.handleSuccess(
+        res,
+        "insurances authorized patients fetched successfully",
+        patients
+      );
+    } catch (error) {
+      return ResponseHelper.handleError(res, "Failed to fetch");
+    }
+  };
 }
 
 export const insuranceController = new InsuranceController();
