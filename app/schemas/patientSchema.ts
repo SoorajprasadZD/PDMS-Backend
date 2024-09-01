@@ -53,7 +53,6 @@ export const authorizeInsuranceSchema = z.object({
 
 export const createMedicalReportSchema = z.object({
   body: z.object({
-    patientId: z.string({ message: "patientId required" }),
     causeOfVisit: z.string({ message: "causeOfVisit required" }),
     condition: z.string({
       message: "condition required",
@@ -72,14 +71,3 @@ export const createMedicalReportSchema = z.object({
     }),
   }),
 });
-
-// {
-//   medicalReportId: string;
-//   patientId: string;
-//   causeOfVisit: string;
-//   condition: string;
-//   dateOfVisit: string;
-//   description: string;
-//   doctor: string;
-//   medication: string;
-// }
