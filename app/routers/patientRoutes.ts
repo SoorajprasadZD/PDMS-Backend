@@ -52,5 +52,9 @@ patientRouter.get(
   "/:patientId/authorized-doctors",
   patientController.getAuthorizedDoctors
 );
+patientRouter.get(
+  "/:patientId/authorized-insurances",
+  patientController.getAuthorizedInsurances
+);
 
 export default patientRouter;

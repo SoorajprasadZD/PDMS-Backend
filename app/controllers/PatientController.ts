@@ -241,12 +241,32 @@ class PatientController {
   ) => {
     try {
       const { patientId } = req.params;
-      const authorizedDoctors =
-        await patientService.getAuthorizedDoctors(patientId);
+      const authorizedDoctors = await patientService.getAuthorizedDoctors(
+        patientId
+      );
       return ResponseHelper.handleSuccess(
         res,
         "Authorized doctors fetched successfully",
         authorizedDoctors
+      );
+    } catch (error) {
+      return ResponseHelper.handleError(res, "Failed to fetch");
+    }
+  };
+
+  public getAuthorizedInsurances: RequestHandler = async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const { patientId } = req.params;
+      const authorizedInsurances = await patientService.getAuthorizedInsurances(
+        patientId
+      );
+      return ResponseHelper.handleSuccess(
+        res,
+        "Authorized insurances fetched successfully",
+        authorizedInsurances
       );
     } catch (error) {
       return ResponseHelper.handleError(res, "Failed to fetch");

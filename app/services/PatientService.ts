@@ -107,6 +107,21 @@ export class PatientService {
       authorization.authorizedDoctors.find((e) => e === doc.doctorId)
     );
   }
+
+  async getAuthorizedInsurances(patientId: string) {
+    const [authorization, insurances] = await Promise.all([
+      this.authorizationRepository.findAuthorizationByPatientId(patientId),
+      this.insuranceRepository.findAll(),
+    ]);
+
+    if (!authorization) {
+      return [];
+    }
+
+    return insurances.filter((ins) =>
+      authorization.authorizedDoctors.find((e) => e === ins.insuranceCompanyId)
+    );
+  }
 }
 
 export const patientService = new PatientService();
