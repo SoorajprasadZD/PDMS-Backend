@@ -279,12 +279,14 @@ class PatientController {
     res: Response
   ) => {
     try {
+      const { id: doctorId } = res.locals;
       const { patientId } = req.params;
       const medicalReport: IMedicalReport = req.body;
 
       medicalReport.patientId = patientId;
+      medicalReport.doctorId = doctorId;
 
-      await patientService.createMedicalReport(medicalReport, patientId);
+      await patientService.createMedicalReport(medicalReport);
 
       return ResponseHelper.handleSuccess(
         res,
@@ -292,6 +294,25 @@ class PatientController {
       );
     } catch (error) {
       return ResponseHelper.handleError(res, "Failed to create report");
+    }
+  };
+
+  public fetchMedicalReports: RequestHandler = async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const { patientId } = req.params;
+
+      const reports = await patientService.getMedicalReports(patientId);
+
+      return ResponseHelper.handleSuccess(
+        res,
+        "Medical reports fetched successfully",
+        reports || []
+      );
+    } catch (error) {
+      return ResponseHelper.handleError(res, "Failed to fetch reports");
     }
   };
 }

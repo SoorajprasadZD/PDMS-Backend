@@ -63,5 +63,6 @@ patientRouter.post(
   validateRequest(createMedicalReportSchema),
   patientController.createMedicalReport
 );
+patientRouter.get("/:patientId/report", patientController.fetchMedicalReports);
 
 export default patientRouter;

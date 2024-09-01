@@ -131,11 +131,12 @@ export class PatientService {
     );
   }
 
-  async createMedicalReport(
-    payload: IMedicalReport,
-    patientId: string
-  ): Promise<any> {
+  async createMedicalReport(payload: IMedicalReport): Promise<any> {
     return this.medicalReportRepository.create(payload);
+  }
+
+  async getMedicalReports(patientId: string): Promise<IMedicalReport[] | null> {
+    return this.medicalReportRepository.findByPatientId(patientId);
   }
 }
 

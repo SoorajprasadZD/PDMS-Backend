@@ -15,10 +15,10 @@ export class MedicalReportRepository {
     return medicalReports;
   }
 
-  async findByPatientId(patientId: string): Promise<IMedicalReport | null> {
-    const medicalReport = await MedicalReport.findOne({ patientId });
+  async findByPatientId(patientId: string): Promise<IMedicalReport[] | null> {
+    const medicalReports = await MedicalReport.find({ patientId });
 
-    return medicalReport;
+    return medicalReports;
   }
 
   async create(payload: IMedicalReport): Promise<any> {

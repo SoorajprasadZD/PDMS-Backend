@@ -8,6 +8,7 @@ const Schema = mongoose.Schema;
 export interface IMedicalReport extends Document {
   medicalReportId: string;
   patientId: string;
+  doctorId: string;
   causeOfVisit: string;
   condition: string;
   dateOfVisit: string;
@@ -23,6 +24,10 @@ const medicalReportSchema = new Schema<IMedicalReport>(
       default: () => uuidv4(),
     },
     patientId: {
+      type: String,
+      required: true,
+    },
+    doctorId: {
       type: String,
       required: true,
     },
