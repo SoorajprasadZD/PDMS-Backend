@@ -215,8 +215,8 @@ class PatientController {
 
       const data = {
         patientId: existingPatient.patientId,
-        fullName: existingPatient.name,
-        mobile: existingPatient.phone,
+        name: existingPatient.name,
+        phone: existingPatient.phone,
         email: existingPatient.email,
         gender: existingPatient.gender,
         dob: existingPatient.gender,
