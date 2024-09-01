@@ -119,7 +119,9 @@ export class PatientService {
     }
 
     return insurances.filter((ins) =>
-      authorization.authorizedDoctors.find((e) => e === ins.insuranceCompanyId)
+      authorization.authorizedInsurances.find(
+        (e) => e === ins.insuranceCompanyId
+      )
     );
   }
 }
