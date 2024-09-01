@@ -14,7 +14,7 @@ import { Role } from "app/common/enums";
 const patientRouter: Router = express.Router();
 
 patientRouter.post(
-  "/login",
+  "/sign-in",
   validateRequest(patientLoginSchema),
   patientController.login
 );

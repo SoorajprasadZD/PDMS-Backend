@@ -11,7 +11,7 @@ import { Role } from "app/common/enums";
 const insuranceRouter: Router = express.Router();
 
 insuranceRouter.post(
-  "/login",
+  "/sign-in",
   validateRequest(insuranceLoginSchema),
   insuranceController.login
 );
