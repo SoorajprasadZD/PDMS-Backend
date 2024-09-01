@@ -9,6 +9,7 @@ import { AuthorizeDoctorPayload, AuthorizeInsurancePayload } from "app/types";
 import { doctorService } from "app/services/DoctorService";
 import { insuranceService } from "app/services/InsuranceService";
 import { StatusCodes } from "http-status-codes";
+import { IMedicalReport } from "app/models/MedicalReport";
 
 class PatientController {
   public login: RequestHandler = async (req: Request, res: Response) => {
@@ -188,7 +189,7 @@ class PatientController {
     }
   };
 
-  public generateMedicalReport = async (req: Request, res: Response) => {
+  public generateMedicalReportPdf = async (req: Request, res: Response) => {
     const doc = new PDFDocument();
     generateMedicalReport(req.body, doc);
     res.setHeader("Content-Type", "application/pdf");
@@ -270,6 +271,27 @@ class PatientController {
       );
     } catch (error) {
       return ResponseHelper.handleError(res, "Failed to fetch");
+    }
+  };
+
+  public createMedicalReport: RequestHandler = async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const { patientId } = req.params;
+      const medicalReport: IMedicalReport = req.body;
+
+      medicalReport.patientId = patientId;
+
+      await patientService.createMedicalReport(medicalReport, patientId);
+
+      return ResponseHelper.handleSuccess(
+        res,
+        "Medical report created successfully"
+      );
+    } catch (error) {
+      return ResponseHelper.handleError(res, "Failed to create report");
     }
   };
 }

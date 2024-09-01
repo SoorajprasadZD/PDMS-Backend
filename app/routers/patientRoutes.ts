@@ -4,6 +4,7 @@ import { validateRequest } from "app/common/middleware/validator";
 import {
   authorizeDoctorSchema,
   authorizeInsuranceSchema,
+  createMedicalReportSchema,
   createPatientSchema,
   patientLoginSchema,
 } from "app/schemas/patientSchema";
@@ -55,6 +56,12 @@ patientRouter.get(
 patientRouter.get(
   "/:patientId/authorized-insurances",
   patientController.getAuthorizedInsurances
+);
+patientRouter.post(
+  "/:patientId/report",
+  roleValidator(Role.DOCTOR),
+  validateRequest(createMedicalReportSchema),
+  patientController.createMedicalReport
 );
 
 export default patientRouter;

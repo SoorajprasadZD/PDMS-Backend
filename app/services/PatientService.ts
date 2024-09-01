@@ -1,9 +1,11 @@
 import { IDoctor } from "app/models/Doctor";
 import { IInsurance } from "app/models/Insurance";
+import { IMedicalReport } from "app/models/MedicalReport";
 import { IPatient } from "app/models/Patient";
 import { AuthorizationRepository } from "app/repositories/AuthorizationRepository";
 import { DoctorRepository } from "app/repositories/DoctorRepository";
 import { InsuranceRepository } from "app/repositories/InsuranceRepository";
+import { MedicalReportRepository } from "app/repositories/MedicalReportRepository";
 import { PatientRepository } from "app/repositories/PatientRepository";
 import { AuthorizeDoctorPayload, AuthorizeInsurancePayload } from "app/types";
 
@@ -12,18 +14,22 @@ export class PatientService {
   private doctorRepository: DoctorRepository;
   private authorizationRepository: AuthorizationRepository;
   private insuranceRepository: InsuranceRepository;
+  private medicalReportRepository: MedicalReportRepository;
 
   constructor(
     repository: PatientRepository = new PatientRepository(),
     doctorRepository: DoctorRepository = new DoctorRepository(),
     authorizationRepository: AuthorizationRepository = new AuthorizationRepository(),
-    insuranceRepository: InsuranceRepository = new InsuranceRepository()
+    insuranceRepository: InsuranceRepository = new InsuranceRepository(),
+    medicalReportRepository: MedicalReportRepository = new MedicalReportRepository()
   ) {
     this.insuranceRepository = insuranceRepository;
 
     this.patientRepository = repository;
     this.doctorRepository = doctorRepository;
     this.authorizationRepository = authorizationRepository;
+    this.authorizationRepository = authorizationRepository;
+    this.medicalReportRepository = medicalReportRepository;
   }
 
   async getAllPatients(): Promise<IPatient[]> {
@@ -123,6 +129,13 @@ export class PatientService {
         (e) => e === ins.insuranceCompanyId
       )
     );
+  }
+
+  async createMedicalReport(
+    payload: IMedicalReport,
+    patientId: string
+  ): Promise<any> {
+    return this.medicalReportRepository.create(payload);
   }
 }
 
