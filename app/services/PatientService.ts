@@ -1,7 +1,9 @@
 import { IDoctor } from "app/models/Doctor";
+import { IInsurance } from "app/models/Insurance";
 import { IPatient } from "app/models/Patient";
 import { AuthorizationRepository } from "app/repositories/AuthorizationRepository";
 import { DoctorRepository } from "app/repositories/DoctorRepository";
+import { InsuranceRepository } from "app/repositories/InsuranceRepository";
 import { PatientRepository } from "app/repositories/PatientRepository";
 import { AuthorizeDoctorPayload, AuthorizeInsurancePayload } from "app/types";
 
@@ -9,12 +11,16 @@ export class PatientService {
   private patientRepository: PatientRepository;
   private doctorRepository: DoctorRepository;
   private authorizationRepository: AuthorizationRepository;
+  private insuranceRepository: InsuranceRepository;
 
   constructor(
     repository: PatientRepository = new PatientRepository(),
     doctorRepository: DoctorRepository = new DoctorRepository(),
-    authorizationRepository: AuthorizationRepository = new AuthorizationRepository()
+    authorizationRepository: AuthorizationRepository = new AuthorizationRepository(),
+    insuranceRepository: InsuranceRepository = new InsuranceRepository()
   ) {
+    this.insuranceRepository = insuranceRepository;
+
     this.patientRepository = repository;
     this.doctorRepository = doctorRepository;
     this.authorizationRepository = authorizationRepository;
@@ -33,6 +39,18 @@ export class PatientService {
     );
     const doctorIds = authorization?.authorizedDoctors;
     const doctors = await this.doctorRepository.findAllExcludingIds(doctorIds);
+
+    return doctors;
+  }
+  async getUnauthorizedInsuranceForPatientByID(
+    patientId: string
+  ): Promise<IInsurance[]> {
+    const authorization = await this.authorizationRepository.findAuthorizationByPatientId(
+      patientId
+    );
+    const insuranceIds = authorization?.authorizedInsurances;
+    console.log(insuranceIds)
+    const doctors = await this.insuranceRepository.findAllExcludingIds(insuranceIds);
 
     return doctors;
   }

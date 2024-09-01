@@ -18,6 +18,7 @@ patientRouter.post(
   patientController.login
 );
 patientRouter.get("/:patientId/unauthorized-doctors", roleValidator(Role.DOCTOR), patientController.getUnauthorizedDoctors);
+patientRouter.get("/:patientId/unauthorized-insurances", roleValidator(Role.DOCTOR), patientController.getUnauthorizedInsurance);
 
 patientRouter.get("/", patientController.getPatients);
 patientRouter.post(

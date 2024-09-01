@@ -15,7 +15,22 @@ export class InsuranceRepository {
 
     return insurances;
   }
+  async findAllExcludingIds(excludeIds?: string[]): Promise<IInsurance[]> {
+    const insurances = await Insurance.find(
+      {
+        insuranceCompanyId: { $nin: excludeIds },
+      },
+      {
+        password: false,
+        createdAt: false,
+        updatedAt: false,
+        __v: false,
+        _id: false,
+      }
+    ).lean();
 
+    return insurances;
+  }
   async findById(insuranceCompanyId: string): Promise<IInsurance | null> {
     const insurance = await Insurance.findOne({ insuranceCompanyId });
 

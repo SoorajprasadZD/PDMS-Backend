@@ -71,6 +71,22 @@ class PatientController {
       return ResponseHelper.handleError(res, "Failed to fetch");
     }
   };
+  public getUnauthorizedInsurance: RequestHandler = async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const patientId = req.params.patientId;
+      const unauthorizedInsurances = await patientService.getUnauthorizedInsuranceForPatientByID(patientId);
+      return ResponseHelper.handleSuccess(
+        res,
+        "Unauthorized Insurance fetched successfully",
+        unauthorizedInsurances
+      );
+    } catch (error) {
+      return ResponseHelper.handleError(res, "Failed to fetch");
+    }
+  };
 
   public createPatient: RequestHandler = async (
     req: Request,
