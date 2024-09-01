@@ -17,8 +17,16 @@ patientRouter.post(
   validateRequest(patientLoginSchema),
   patientController.login
 );
-patientRouter.get("/:patientId/unauthorized-doctors", roleValidator(Role.DOCTOR), patientController.getUnauthorizedDoctors);
-patientRouter.get("/:patientId/unauthorized-insurances", roleValidator(Role.DOCTOR), patientController.getUnauthorizedInsurance);
+patientRouter.get(
+  "/:patientId/unauthorized-doctors",
+  roleValidator(Role.DOCTOR),
+  patientController.getUnauthorizedDoctors
+);
+patientRouter.get(
+  "/:patientId/unauthorized-insurances",
+  roleValidator(Role.DOCTOR),
+  patientController.getUnauthorizedInsurance
+);
 
 patientRouter.get("/", patientController.getPatients);
 patientRouter.post(
@@ -40,5 +48,9 @@ patientRouter.post(
   patientController.authorizeInsurance
 );
 patientRouter.get("/:patientId/profile", patientController.fetchProfile);
+patientRouter.get(
+  "/:patientId/authorized-doctors",
+  patientController.getAuthorizedDoctors
+);
 
 export default patientRouter;

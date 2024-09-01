@@ -79,7 +79,8 @@ class PatientController {
   ) => {
     try {
       const patientId = req.params.patientId;
-      const unauthorizedInsurances = await patientService.getUnauthorizedInsuranceForPatientByID(patientId);
+      const unauthorizedInsurances =
+        await patientService.getUnauthorizedInsuranceForPatientByID(patientId);
       return ResponseHelper.handleSuccess(
         res,
         "Unauthorized Insurance fetched successfully",
@@ -231,6 +232,24 @@ class PatientController {
       );
     } catch (error) {
       return ResponseHelper.handleError(res, "Failed to fetch patient profile");
+    }
+  };
+
+  public getAuthorizedDoctors: RequestHandler = async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const { patientId } = req.params;
+      const authorizedDoctors =
+        await patientService.getAuthorizedDoctors(patientId);
+      return ResponseHelper.handleSuccess(
+        res,
+        "Authorized doctors fetched successfully",
+        authorizedDoctors
+      );
+    } catch (error) {
+      return ResponseHelper.handleError(res, "Failed to fetch");
     }
   };
 }

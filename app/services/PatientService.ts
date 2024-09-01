@@ -34,9 +34,10 @@ export class PatientService {
   async getUnauthorizedDoctorsForPatientByID(
     patientId: string
   ): Promise<IDoctor[]> {
-    const authorization = await this.authorizationRepository.findAuthorizationByPatientId(
-      patientId
-    );
+    const authorization =
+      await this.authorizationRepository.findAuthorizationByPatientId(
+        patientId
+      );
     const doctorIds = authorization?.authorizedDoctors;
     const doctors = await this.doctorRepository.findAllExcludingIds(doctorIds);
 
@@ -45,12 +46,15 @@ export class PatientService {
   async getUnauthorizedInsuranceForPatientByID(
     patientId: string
   ): Promise<IInsurance[]> {
-    const authorization = await this.authorizationRepository.findAuthorizationByPatientId(
-      patientId
-    );
+    const authorization =
+      await this.authorizationRepository.findAuthorizationByPatientId(
+        patientId
+      );
     const insuranceIds = authorization?.authorizedInsurances;
-    console.log(insuranceIds)
-    const doctors = await this.insuranceRepository.findAllExcludingIds(insuranceIds);
+    console.log(insuranceIds);
+    const doctors = await this.insuranceRepository.findAllExcludingIds(
+      insuranceIds
+    );
 
     return doctors;
   }
@@ -86,6 +90,21 @@ export class PatientService {
     return this.authorizationRepository.authorizeInsurance(
       payload.patientId,
       payload.insuranceCompanyIdToBeAuthorized
+    );
+  }
+
+  async getAuthorizedDoctors(patientId: string) {
+    const [authorization, doctors] = await Promise.all([
+      this.authorizationRepository.findAuthorizationByPatientId(patientId),
+      this.doctorRepository.findAll(),
+    ]);
+
+    if (!authorization) {
+      return [];
+    }
+
+    return doctors.filter((doc) =>
+      authorization.authorizedDoctors.find((e) => e === doc.doctorId)
     );
   }
 }
