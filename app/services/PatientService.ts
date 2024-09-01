@@ -1,11 +1,18 @@
 import { IPatient } from "app/models/Patient";
+import { AuthorizationRepository } from "app/repositories/AuthorizationRepository";
 import { PatientRepository } from "app/repositories/PatientRepository";
+import { AuthorizeDoctorPayload, AuthorizeInsurancePayload } from "app/types";
 
 export class PatientService {
   private patientRepository: PatientRepository;
+  private authorizationRepository: AuthorizationRepository;
 
-  constructor(repository: PatientRepository = new PatientRepository()) {
+  constructor(
+    repository: PatientRepository = new PatientRepository(),
+    authorizationRepository: AuthorizationRepository = new AuthorizationRepository()
+  ) {
     this.patientRepository = repository;
+    this.authorizationRepository = authorizationRepository;
   }
 
   async getAllPatients(): Promise<IPatient[]> {
@@ -32,6 +39,20 @@ export class PatientService {
 
   async verify(patientId: string) {
     return this.patientRepository.verify(patientId);
+  }
+
+  async authorizeDoctor(payload: AuthorizeDoctorPayload) {
+    return this.authorizationRepository.authorizeDoctor(
+      payload.patientId,
+      payload.doctorIdToBeAuthorized
+    );
+  }
+
+  async authorizeInsurance(payload: AuthorizeInsurancePayload) {
+    return this.authorizationRepository.authorizeInsurance(
+      payload.patientId,
+      payload.insuranceCompanyIdToBeAuthorized
+    );
   }
 }
 

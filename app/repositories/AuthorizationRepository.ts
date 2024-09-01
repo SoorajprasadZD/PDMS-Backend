@@ -28,21 +28,24 @@ export class AuthorizationRepository {
   //     return patient;
   //   }
 
-  async authorizeDoctor(patientId: string, doctorId: string) {
+  async authorizeDoctor(patientId: string, doctorIdToBeAuthorized: string) {
     await Authorizations.updateOne(
       {
         patientId,
       },
-      { $push: { authorizedDoctors: doctorId } }
+      { $push: { authorizedDoctors: doctorIdToBeAuthorized } }
     );
   }
 
-  async authorizeInsurance(patientId: string, insuranceCompanyId: string) {
+  async authorizeInsurance(
+    patientId: string,
+    insuranceCompanyIdToBeAuthorized: string
+  ) {
     await Authorizations.updateOne(
       {
         patientId,
       },
-      { $push: { authorizedInsurances: insuranceCompanyId } }
+      { $push: { authorizedInsurances: insuranceCompanyIdToBeAuthorized } }
     );
   }
 }

@@ -15,7 +15,7 @@ export const createPatientSchema = z.object({
     address: z.string({ message: "address required" }),
     state: z.string({ message: "state required" }),
     phone: z
-      .string({ message: "phone number required"})
+      .string({ message: "phone number required" })
       .length(10, "phone number must be exactly 10 digits")
       .regex(/^\d+$/, "phone number must contain only digits"),
   }),
@@ -30,5 +30,23 @@ export const patientLoginSchema = z.object({
       .string({ message: "password required" })
       .min(6, "password must be at least 6 characters"),
     role: z.enum([Role.PATIENT]),
+  }),
+});
+
+export const authorizeDoctorSchema = z.object({
+  body: z.object({
+    patientId: z.string({ message: "patientId required" }),
+    doctorIdToBeAuthorized: z.string({
+      message: "doctorIdToBeAuthorized required",
+    }),
+  }),
+});
+
+export const authorizeInsuranceSchema = z.object({
+  body: z.object({
+    patientId: z.string({ message: "patientId required" }),
+    insuranceCompanyIdToBeAuthorized: z.string({
+      message: "insuranceCompanyIdToBeAuthorized required",
+    }),
   }),
 });
