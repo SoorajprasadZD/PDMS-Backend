@@ -13,7 +13,7 @@ class PatientController {
   public login: RequestHandler = async (req: Request, res: Response) => {
     try {
       const { email, password } = req.body;
-      
+
       const existingPatient = await patientService.findByEmail(email);
 
       if (!existingPatient) {
@@ -50,6 +50,22 @@ class PatientController {
         res,
         "Patients fetched successfully",
         patients
+      );
+    } catch (error) {
+      return ResponseHelper.handleError(res, "Failed to fetch");
+    }
+  };
+  public getUnauthorizedDoctors: RequestHandler = async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const patientId = req.params.patientId;
+      const unauthorizedDoctors = await patientService.getUnauthorizedDoctorsForPatientByID(patientId);
+      return ResponseHelper.handleSuccess(
+        res,
+        "Unauthorized doctors fetched successfully",
+        unauthorizedDoctors
       );
     } catch (error) {
       return ResponseHelper.handleError(res, "Failed to fetch");

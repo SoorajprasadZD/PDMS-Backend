@@ -15,6 +15,22 @@ export class DoctorRepository {
 
     return doctors;
   }
+  async findAllExcludingIds(excludeIds?: string[]): Promise<IDoctor[]> {
+    const doctors = await Doctor.find(
+      {
+        doctorId: { $nin: excludeIds },
+      },
+      {
+        password: false,
+        createdAt: false,
+        updatedAt: false,
+        __v: false,
+        _id: false,
+      }
+    ).lean();
+
+    return doctors;
+  }
 
   async findById(doctorId: string): Promise<IDoctor | null> {
     const doctor = await Doctor.findOne({ doctorId });

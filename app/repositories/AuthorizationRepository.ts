@@ -27,6 +27,12 @@ export class AuthorizationRepository {
 
   //     return patient;
   //   }
+  async findAuthorizationByPatientId(patientId: string): Promise<IAuthorizations | null> {
+    const authorization = await Authorizations.findOne({ patientId });
+
+    return authorization;
+  }
+
   async getPatientIdsByDoctorId(doctorId: string): Promise<IAuthorizations[]> {
     const insurances = await Authorizations.find(
       { authorizedDoctors: doctorId },

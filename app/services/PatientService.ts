@@ -1,17 +1,22 @@
+import { IDoctor } from "app/models/Doctor";
 import { IPatient } from "app/models/Patient";
 import { AuthorizationRepository } from "app/repositories/AuthorizationRepository";
+import { DoctorRepository } from "app/repositories/DoctorRepository";
 import { PatientRepository } from "app/repositories/PatientRepository";
 import { AuthorizeDoctorPayload, AuthorizeInsurancePayload } from "app/types";
 
 export class PatientService {
   private patientRepository: PatientRepository;
+  private doctorRepository: DoctorRepository;
   private authorizationRepository: AuthorizationRepository;
 
   constructor(
     repository: PatientRepository = new PatientRepository(),
+    doctorRepository: DoctorRepository = new DoctorRepository(),
     authorizationRepository: AuthorizationRepository = new AuthorizationRepository()
   ) {
     this.patientRepository = repository;
+    this.doctorRepository = doctorRepository;
     this.authorizationRepository = authorizationRepository;
   }
 
@@ -19,6 +24,17 @@ export class PatientService {
     const patients = await this.patientRepository.findAll();
 
     return patients;
+  }
+  async getUnauthorizedDoctorsForPatientByID(
+    patientId: string
+  ): Promise<IDoctor[]> {
+    const authorization = await this.authorizationRepository.findAuthorizationByPatientId(
+      patientId
+    );
+    const doctorIds = authorization?.authorizedDoctors;
+    const doctors = await this.doctorRepository.findAllExcludingIds(doctorIds);
+
+    return doctors;
   }
 
   async findById(patientId: string): Promise<IPatient | null> {
