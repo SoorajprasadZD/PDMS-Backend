@@ -62,7 +62,8 @@ class PatientController {
   ) => {
     try {
       const patientId = req.params.patientId;
-      const unauthorizedDoctors = await patientService.getUnauthorizedDoctorsForPatientByID(patientId);
+      const unauthorizedDoctors =
+        await patientService.getUnauthorizedDoctorsForPatientByID(patientId);
       return ResponseHelper.handleSuccess(
         res,
         "Unauthorized doctors fetched successfully",
@@ -212,12 +213,21 @@ class PatientController {
         );
       }
 
-      const { password, ...dataWithoutPassword } = existingPatient;
+      const data = {
+        patientId: existingPatient.patientId,
+        fullName: existingPatient.name,
+        mobile: existingPatient.phone,
+        email: existingPatient.email,
+        gender: existingPatient.gender,
+        dob: existingPatient.gender,
+        address: existingPatient.address,
+        state: existingPatient.state,
+      };
 
       return ResponseHelper.handleSuccess(
         res,
         "Insurance authorized successfully",
-        dataWithoutPassword
+        data
       );
     } catch (error) {
       return ResponseHelper.handleError(res, "Failed to fetch patient profile");
