@@ -190,7 +190,7 @@ export const generateMedicalReport = (data: any, doc: any) => {
   doc.moveDown(0.5);
   // Set font to bold
   doc.font("Helvetica");
-  doc.text("Kerala, India", reportDetailsMargin);
+  doc.text("Sydney, Australia", reportDetailsMargin);
 
   // authorised signature
   // Set font to bold
