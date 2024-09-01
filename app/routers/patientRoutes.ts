@@ -38,6 +38,6 @@ patientRouter.post(
   validateRequest(authorizeInsuranceSchema),
   patientController.authorizeInsurance
 );
-patientRouter.get("/profile", patientController.fetchProfile);
+patientRouter.get("/:patientId/profile", patientController.fetchProfile);
 
 export default patientRouter;
