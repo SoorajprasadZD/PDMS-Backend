@@ -9,7 +9,12 @@ import { insuranceService } from "app/services/InsuranceService";
 import { adminService } from "app/services/AdminService";
 
 export const roleValidator =
-  (validRole: Role) => async (req: Request, res: Response, next: NextFunction) => {
+  (validRole?: Role) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (!validRole) {
+      validRole = req.headers.role as Role;
+    }
+    
     try {
       const { id, role } = req.headers;
 
