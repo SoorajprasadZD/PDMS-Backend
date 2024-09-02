@@ -48,7 +48,12 @@ export class CommonService {
     }
 
     const { initVector, faceDescriptor } = faceData;
-    const biometrics = faceUtil.decryptBiometrics(faceDescriptor, initVector);
+
+    const initVectorBuffer = Buffer.from(initVector, "base64");
+    const biometrics = faceUtil.decryptBiometrics(
+      faceDescriptor,
+      initVectorBuffer
+    );
     const distance = faceUtil.euclideanDistance(descriptor, biometrics);
 
     if (distance < threshold) {
