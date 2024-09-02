@@ -7,7 +7,7 @@ import { insuranceService } from "app/services/InsuranceService";
 import { StatusCodes } from "http-status-codes";
 
 class CommonController {
-  public verifyLink: RequestHandler = async (req: Request, res: Response) => {
+  public registerFace: RequestHandler = async (req: Request, res: Response) => {
     try {
       const { id, role, screenshot, descriptor } = req.body;
       let user = null;

@@ -10,7 +10,7 @@ const commonRouter: Router = express.Router();
 commonRouter.post(
   "/register-face",
   // validateRequest(verifyLinkSchema),
-  commonController.verifyLink
+  commonController.registerFace
 );
 
 export default commonRouter;
