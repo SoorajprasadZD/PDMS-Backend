@@ -51,11 +51,13 @@ class DoctorController {
       return ResponseHelper.handleError(res, "Failed to fetch");
     }
   };
-  public getDoctorAuthorizedPatients: RequestHandler = async (req: Request, res: Response) => {
+  public getDoctorAuthorizedPatients: RequestHandler = async (
+    req: Request,
+    res: Response
+  ) => {
     try {
       const doctorId = res.locals.id;
       const patients = await doctorService.getAuthorizedPatients(doctorId);
-
 
       return ResponseHelper.handleSuccess(
         res,
@@ -81,7 +83,10 @@ class DoctorController {
 
       payload.password = await PasswordUtil.hashPassword(payload.password);
       const result = await doctorService.createDoctor(payload);
+      const doctorId = result.doctorId;
+      const role = Role.DOCTOR;
 
+      result.verificationLink = "/verify-link";
       return ResponseHelper.handleSuccess(
         res,
         "Doctor created successfully",
