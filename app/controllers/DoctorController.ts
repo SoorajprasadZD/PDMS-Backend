@@ -83,10 +83,6 @@ class DoctorController {
 
       payload.password = await PasswordUtil.hashPassword(payload.password);
       const result = await doctorService.createDoctor(payload);
-      const doctorId = result.doctorId;
-      const email =result.email
-      const role = Role.DOCTOR;
-      result.faceRegistrationLink = `http://localhost:3000/authentication/face-registration?id=${doctorId}&role=${role}&email=${email}`;
       return ResponseHelper.handleSuccess(
         res,
         "Doctor created successfully",

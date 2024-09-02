@@ -6,6 +6,7 @@ import { IFaceData } from "app/models/FaceData";
 import { PatientRepository } from "app/repositories/PatientRepository";
 import { AuthorizationRepository } from "app/repositories/AuthorizationRepository";
 import { IPatient } from "app/models/Patient";
+import { Role } from "app/common/enums";
 
 export class DoctorService {
   private doctorRepository: DoctorRepository;
@@ -25,8 +26,15 @@ export class DoctorService {
     this.authorizationRepository = authorizationRepository;
   }
 
-  async getAllDoctors(): Promise<IDoctor[]> {
-    const doctors = await this.doctorRepository.findAll();
+  async getAllDoctors(): Promise<any> {
+    let doctors: any = await this.doctorRepository.findAll();
+
+    doctors = doctors.map((d: any)=> {
+      return {
+        ...d,
+        faceRegistrationLink: `http://localhost:3000/authentication/face-registration?id=${d.doctorId}&role=${Role.DOCTOR}&email=${d.email}`
+      }
+    })
 
     return doctors;
   }
