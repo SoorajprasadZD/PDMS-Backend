@@ -32,7 +32,7 @@ export class DoctorService {
     doctors = doctors.map((d: any)=> {
       return {
         ...d,
-        faceRegistrationLink: `http://localhost:3000/authentication/face-registration?id=${d.doctorId}&role=${Role.DOCTOR}&email=${d.email}`
+        faceRegistrationLink: `/authentication/face-registration?id=${d.doctorId}&role=${Role.DOCTOR}&email=${d.email}`
       }
     })
 
