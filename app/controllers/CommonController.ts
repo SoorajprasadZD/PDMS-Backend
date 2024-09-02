@@ -108,6 +108,7 @@ class CommonController {
 
       return ResponseHelper.handleError(res, "Authorization failed");
     } catch (error) {
+      console.log(error);
       return ResponseHelper.handleError(res, "Registration failed");
     }
   };

@@ -43,6 +43,7 @@ export class CommonService {
     const faceData = await this.faceDataRepository.findByUserId(id);
 
     if (!faceData) {
+      console.log("no face data");
       throw new Error("Face data not found for user");
     }
 
