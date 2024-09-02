@@ -61,6 +61,7 @@ export const roleValidator =
       }
 
       res.locals.id = id;
+      res.locals.role = role;
 
       next();
     } catch (err: any) {
