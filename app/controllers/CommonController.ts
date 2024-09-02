@@ -14,6 +14,8 @@ class CommonController {
       let user = null;
       let service: any = doctorService;
 
+      console.log(id, role)
+      
       switch (role) {
         case Role.DOCTOR:
           user = await doctorService.findById(id);
