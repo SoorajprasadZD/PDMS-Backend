@@ -50,7 +50,7 @@ export class InsuranceRepository {
     return { insuranceCompanyId, name, email, address, state, phone, role };
   }
 
-  async verify(insuranceCompanyId: string) {
+  async setFaceRegisteredTrue(insuranceCompanyId: string) {
     await Insurance.updateOne(
       {
         insuranceCompanyId,

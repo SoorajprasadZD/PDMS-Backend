@@ -8,6 +8,9 @@ import { InsuranceRepository } from "app/repositories/InsuranceRepository";
 import { MedicalReportRepository } from "app/repositories/MedicalReportRepository";
 import { PatientRepository } from "app/repositories/PatientRepository";
 import { AuthorizeDoctorPayload, AuthorizeInsurancePayload } from "app/types";
+import { commonService } from "./CommonService";
+import { FaceDataRepository } from "app/repositories/FaceDataRepository";
+import { IFaceData } from "app/models/FaceData";
 
 export class PatientService {
   private patientRepository: PatientRepository;
@@ -15,16 +18,18 @@ export class PatientService {
   private authorizationRepository: AuthorizationRepository;
   private insuranceRepository: InsuranceRepository;
   private medicalReportRepository: MedicalReportRepository;
+  private faceDataRepository: FaceDataRepository;
 
   constructor(
     repository: PatientRepository = new PatientRepository(),
     doctorRepository: DoctorRepository = new DoctorRepository(),
     authorizationRepository: AuthorizationRepository = new AuthorizationRepository(),
     insuranceRepository: InsuranceRepository = new InsuranceRepository(),
-    medicalReportRepository: MedicalReportRepository = new MedicalReportRepository()
+    medicalReportRepository: MedicalReportRepository = new MedicalReportRepository(),
+    faceDataRepository: FaceDataRepository = new FaceDataRepository()
   ) {
     this.insuranceRepository = insuranceRepository;
-
+    this.faceDataRepository = faceDataRepository;
     this.patientRepository = repository;
     this.doctorRepository = doctorRepository;
     this.authorizationRepository = authorizationRepository;
@@ -81,10 +86,6 @@ export class PatientService {
     return this.patientRepository.create(payload, doctorId);
   }
 
-  async verify(patientId: string) {
-    return this.patientRepository.verify(patientId);
-  }
-
   async authorizeDoctor(payload: AuthorizeDoctorPayload) {
     return this.authorizationRepository.authorizeDoctor(
       payload.patientId,
@@ -137,6 +138,21 @@ export class PatientService {
 
   async getMedicalReports(patientId: string): Promise<IMedicalReport[] | null> {
     return this.medicalReportRepository.findByPatientId(patientId);
+  }
+
+
+  async registerFace(id: string, face: string, descriptor: any) {
+    const { path, initVector, faceDescriptor } =
+      await commonService.registerFace(face, descriptor);
+
+    await this.faceDataRepository.create({
+      id,
+      path,
+      initVector,
+      faceDescriptor,
+    } as IFaceData);
+
+    return this.patientRepository.setFaceRegisteredTrue(id);
   }
 }
 

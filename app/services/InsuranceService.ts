@@ -3,20 +3,26 @@ import { IPatient } from "app/models/Patient";
 import { AuthorizationRepository } from "app/repositories/AuthorizationRepository";
 import { InsuranceRepository } from "app/repositories/InsuranceRepository";
 import { PatientRepository } from "app/repositories/PatientRepository";
+import { commonService } from "./CommonService";
+import { FaceDataRepository } from "app/repositories/FaceDataRepository";
+import { IFaceData } from "app/models/FaceData";
 
 export class InsuranceService {
   private insuranceRepository: InsuranceRepository;
   private authorizationRepository: AuthorizationRepository;
   private patientRepository: PatientRepository;
+  private faceDataRepository: FaceDataRepository;
 
   constructor(
     insuranceRepository: InsuranceRepository = new InsuranceRepository(),
     authorizationRepository: AuthorizationRepository = new AuthorizationRepository(),
-    patientRepository: PatientRepository = new PatientRepository()
+    patientRepository: PatientRepository = new PatientRepository(),
+    faceDataRepository: FaceDataRepository = new FaceDataRepository()
   ) {
     this.insuranceRepository = insuranceRepository;
     this.authorizationRepository = authorizationRepository;
     this.patientRepository = patientRepository;
+    this.faceDataRepository = faceDataRepository;
   }
 
   async getAllInsurances(): Promise<IInsurance[]> {
@@ -43,10 +49,6 @@ export class InsuranceService {
     return this.insuranceRepository.create(payload);
   }
 
-  async verify(insuranceCompanyId: string) {
-    return this.insuranceRepository.verify(insuranceCompanyId);
-  }
-
   async getAuthorizedPatients(insuranceCompanyId: string): Promise<IPatient[]> {
     const insurances = await this.insuranceRepository.findAll();
     const authorizedPatients =
@@ -61,6 +63,22 @@ export class InsuranceService {
     console.log(patients.map((patient) => patient.patientId));
     return patients;
   }
+
+  async registerFace(id: string, face: string, descriptor: any) {
+    const { path, initVector, faceDescriptor } =
+      await commonService.registerFace(face, descriptor);
+
+    await this.faceDataRepository.create({
+      id,
+      path,
+      initVector,
+      faceDescriptor,
+    } as IFaceData);
+
+    return this.insuranceRepository.setFaceRegisteredTrue(id);
+  }
+
+
 }
 
 export const insuranceService = new InsuranceService();

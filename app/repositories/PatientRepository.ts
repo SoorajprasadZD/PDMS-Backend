@@ -58,7 +58,7 @@ export class PatientRepository {
     return { patientId, name, email, gender, dob, address, state, phone, role };
   }
 
-  async verify(patientId: string) {
+  async setFaceRegisteredTrue(patientId: string) {
     await Patient.updateOne(
       {
         patientId,
