@@ -6,6 +6,7 @@ import { PatientRepository } from "app/repositories/PatientRepository";
 import { commonService } from "./CommonService";
 import { FaceDataRepository } from "app/repositories/FaceDataRepository";
 import { IFaceData } from "app/models/FaceData";
+import { Role } from "app/common/enums";
 
 export class InsuranceService {
   private insuranceRepository: InsuranceRepository;
@@ -26,7 +27,14 @@ export class InsuranceService {
   }
 
   async getAllInsurances(): Promise<IInsurance[]> {
-    const insurances = await this.insuranceRepository.findAll();
+    let insurances = await this.insuranceRepository.findAll();
+
+    insurances = insurances.map((insurance:any)=>{
+      return {
+        ...insurance,
+        faceRegistrationLink: `/authentication/face-registration?id=${insurance.insuranceCompanyId}&role=${Role.INSURANCE}&email=${insurance.email}`
+      }
+    })
 
     return insurances;
   }
