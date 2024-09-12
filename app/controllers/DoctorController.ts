@@ -57,7 +57,14 @@ class DoctorController {
   ) => {
     try {
       const doctorId = res.locals.id;
-      const patients = await doctorService.getAuthorizedPatients(doctorId);
+      let patients = await doctorService.getAuthorizedPatients(doctorId);
+
+      patients = patients.map((patient: any)=>{
+        return {
+          ...patient,
+          faceRegistrationLink: `/authentication/face-registration?id=${patient.patientId}&role=${Role.PATIENT}&email=${patient.email}`
+        }
+      })
 
       return ResponseHelper.handleSuccess(
         res,
