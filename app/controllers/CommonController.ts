@@ -78,15 +78,15 @@ class CommonController {
       switch (role) {
         case Role.DOCTOR:
           user = await doctorService.findById(id);
-          service = doctorService;
           break;
         case Role.PATIENT:
           user = await patientService.findById(id);
-          service = patientService;
           break;
         case Role.INSURANCE:
           user = await insuranceService.findById(id);
-          service = insuranceService;
+          break;
+        case Role.ADMIN:
+          user = await adminService.findById(id);
           break;
       }
 
