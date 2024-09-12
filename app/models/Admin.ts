@@ -8,6 +8,7 @@ export interface IAdmin extends Document {
   adminId: string;
   email: string;
   password: string;
+  faceVerified: boolean;
   role: string;
 }
 
@@ -26,6 +27,10 @@ const AdminSchema = new Schema<IAdmin>(
     password: {
       type: String,
       required: true,
+    },
+    faceVerified: {
+      type: Boolean,
+      default: false,
     },
     role: {
       type: String,

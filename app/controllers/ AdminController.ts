@@ -27,6 +27,7 @@ class AdminController {
       return ResponseHelper.handleSuccess(res, "Logged in successfully", {
         adminId: existingAdmin.adminId,
         role: Role.ADMIN,
+        faceVerified: existingAdmin.faceVerified
       });
     } catch (error) {
       return ResponseHelper.handleError(res, "Failed to fetch");
