@@ -6,6 +6,7 @@ import { patientService } from "app/services/PatientService";
 import { insuranceService } from "app/services/InsuranceService";
 import { StatusCodes } from "http-status-codes";
 import { commonService } from "app/services/CommonService";
+import { adminService } from "app/services/AdminService";
 
 class CommonController {
   public registerFace: RequestHandler = async (req: Request, res: Response) => {
@@ -26,6 +27,10 @@ class CommonController {
         case Role.INSURANCE:
           user = await insuranceService.findById(id);
           service = insuranceService;
+          break;
+        case Role.ADMIN:
+          user = await adminService.findById(id);
+          service = adminService;
           break;
       }
 

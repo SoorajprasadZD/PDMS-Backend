@@ -18,4 +18,15 @@ export class AdminRepository {
 
     return { adminId, email, role };
   }
+
+  async setFaceRegisteredTrue(adminId: string) {
+    await Admin.updateOne(
+      {
+        adminId,
+      },
+      {
+        faceVerified: true,
+      }
+    );
+  }
 }
