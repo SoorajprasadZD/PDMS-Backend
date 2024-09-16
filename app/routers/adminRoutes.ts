@@ -1,5 +1,5 @@
 import { validateRequest } from "app/common/middleware/validator";
-import { adminController } from "app/controllers/ AdminController";
+import { adminController } from "app/controllers/AdminController";
 import { adminLoginSchema } from "app/schemas/adminSchema";
 import express, { type Router } from "express";
 

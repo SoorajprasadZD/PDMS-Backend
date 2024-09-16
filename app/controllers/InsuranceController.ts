@@ -42,9 +42,9 @@ class InsuranceController {
     try {
       const insurances = await insuranceService.getAllInsurances();
 
-      if (insurances.length === 0) {
-        return ResponseHelper.handleError(res, "Failed to fetch");
-      }
+      // if (insurances.length === 0) {
+      //   return ResponseHelper.handleError(res, "Failed to fetch");
+      // }
 
       return ResponseHelper.handleSuccess(
         res,

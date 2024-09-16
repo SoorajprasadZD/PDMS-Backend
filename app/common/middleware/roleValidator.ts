@@ -9,14 +9,14 @@ import { insuranceService } from "app/services/InsuranceService";
 import { adminService } from "app/services/AdminService";
 
 export const roleValidator =
-  (validRole?: Role) =>
+  (validRole: Role | undefined = undefined) =>
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(validRole);
-    console.log(req.headers.role);
-    if (!validRole) {
+    console.log("valid role args", validRole);
+    console.log("role headers", req.headers.role);
+    if (!validRole || validRole == Role.ALL) {
       validRole = req.headers.role as Role;
     }
-    console.log(validRole);
+    console.log("set valid role", validRole);
 
     try {
       const { id, role } = req.headers;
@@ -57,14 +57,19 @@ export const roleValidator =
       const user = await service.findById(id);
 
       if (!user || !user.role || user.role !== validRole) {
+        validRole = undefined;
         throw new Error("UnAuthorized");
       }
 
+      
+      
       res.locals.id = id;
       res.locals.role = role;
-
+      
+      validRole = undefined;
       next();
     } catch (err: any) {
+      validRole = undefined;
       if (err instanceof z.ZodError) {
         return ResponseHelper.handleError(
           res,

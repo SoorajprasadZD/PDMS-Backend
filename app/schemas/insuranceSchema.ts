@@ -14,8 +14,8 @@ export const createInsuranceSchema = z.object({
     state: z.string({ message: "state required" }),
     phone: z
       .string({ message: "phone number required"})
-      .length(10, "phone number must be exactly 10 digits")
-      .regex(/^\d+$/, "phone number must contain only digits"),
+      // .length(10, "phone number must be exactly 10 digits")
+      // .regex(/^\d+$/, "phone number must contain only digits"),
   }),
 });
 

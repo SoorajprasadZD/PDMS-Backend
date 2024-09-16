@@ -45,9 +45,9 @@ class PatientController {
     try {
       const patients = await patientService.getAllPatients();
 
-      if (patients.length === 0) {
-        return ResponseHelper.handleError(res, "Failed to fetch");
-      }
+      // if (patients.length === 0) {
+      //   return ResponseHelper.handleError(res, "Failed to fetch");
+      // }
 
       return ResponseHelper.handleSuccess(
         res,

@@ -4,6 +4,7 @@ import * as path from "path";
 try {
   if (process.env.NODE_ENV === "development") {
     dotenv.config({ path: path.resolve(process.cwd(), ".env.development") });
+
   } else if (process.env.NODE_ENV === "test") {
     dotenv.config({ path: path.resolve(process.cwd(), ".env.test") });
   }

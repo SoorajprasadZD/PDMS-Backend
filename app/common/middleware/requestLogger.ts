@@ -24,7 +24,7 @@ type PinoCustomProps = {
 };
 
 
-const env = config.get<string>('env');
+const env = config.get<string>('environment');
 
 const requestLogger = (options?: Options): RequestHandler[] => {
   const pinoOptions: Options = {
